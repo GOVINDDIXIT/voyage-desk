@@ -126,10 +126,18 @@ function showScreen(name) {
   renderChrome();
 }
 
+function tripRangeLabel(checkIn, checkOut) {
+  // Compact header form: "Sep 12–18" when same month (matches before-shot contradiction)
+  if (checkIn.getMonth() === checkOut.getMonth() && checkIn.getFullYear() === checkOut.getFullYear()) {
+    return `${MONTHS[checkIn.getMonth()]} ${checkIn.getDate()}–${checkOut.getDate()}`;
+  }
+  return `${liveLabel(checkIn)}–${liveLabel(checkOut)}`;
+}
+
 function renderChrome() {
   const nights = nightsBetween(state.checkIn, state.checkOut);
-  tripStrip.textContent = `${liveLabel(state.checkIn)}–${liveLabel(state.checkOut)} · ${state.guests} guest${state.guests > 1 ? "s" : ""}`;
-  resultsLede.textContent = `2 loft stays · ${liveLabel(state.checkIn)}–${liveLabel(state.checkOut)}`;
+  tripStrip.textContent = `${tripRangeLabel(state.checkIn, state.checkOut)} · ${state.guests} guest${state.guests > 1 ? "s" : ""}`;
+  resultsLede.textContent = `2 loft stays · ${tripRangeLabel(state.checkIn, state.checkOut)}`;
 
   // Confirm body from STALE confirmView (not live state)
   confirmIn.textContent = `Check-in ${confirmView.checkInLabel}`;
