@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voyage Desk</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">Voyage Desk</div>
+      <div class="trip-strip" id="trip-strip" aria-live="polite">Sep 12–18 · 2 guests</div>
+    </header>
+
+    <nav class="crumbs" aria-label="Booking steps">
+      <button type="button" class="crumb" data-screen="search">Search</button>
+      <span class="crumb-sep">/</span>
+      <button type="button" class="crumb" data-screen="results">Results</button>
+      <span class="crumb-sep">/</span>
+      <button type="button" class="crumb" data-screen="room">Room</button>
+      <span class="crumb-sep">/</span>
+      <button type="button" class="crumb is-active" data-screen="confirm" aria-current="step">Confirm</button>
+    </nav>
+
+    <main class="page">
+      <!-- SCREEN: Search -->
+      <section class="screen" id="screen-search" data-screen="search" hidden>
+        <h1>Search stays</h1>
+        <p class="lede">Harbor city · loft stays</p>
+        <label class="field">
+          <span>Dates</span>
+          <div class="date-row">
+            <input id="search-in" type="text" value="2026-09-12" />
+            <span>→</span>
+            <input id="search-out" type="text" value="2026-09-18" />
+          </div>
+        </label>
+        <label class="field">
+          <span>Guests</span>
+          <select id="search-guests">
+            <option value="1">1 guest</option>
+            <option value="2" selected>2 guests</option>
+            <option value="3">3 guests</option>
+          </select>
+        </label>
+        <button type="button" class="btn" id="search-continue">See results</button>
+      </section>
+
+      <!-- SCREEN: Results -->
+      <section class="screen" id="screen-results" data-screen="results" hidden>
+        <h1>Results</h1>
+        <p class="lede" id="results-lede">2 loft stays · Sep 12–18</p>
+        <article class="result-card is-selected" data-room="loft">
+          <img class="thumb" src="media/loft.svg" width="600" height="400" alt="Loft with window light on the left" />
+          <div>
+            <h2>Classic loft</h2>
+            <p>$240 / night</p>
+          </div>
+        </article>
+        <article class="result-card" data-room="courtyard">
+          <img class="thumb" src="media/loft.svg" width="600" height="400" alt="" />
+          <div>
+            <h2>Courtyard studio</h2>
+            <p>$190 / night</p>
+          </div>
+        </article>
+        <button type="button" class="btn" id="results-continue">Choose Classic loft</button>
+      </section>
+
+      <!-- SCREEN: Room -->
+      <section class="screen" id="screen-room" data-screen="room" hidden>
+        <h1>Classic loft</h1>
+        <p class="lede">60 min check-in window · kitchenette</p>
+        <img class="hero" src="media/loft.svg" width="600" height="400" alt="Wide loft interior, window light on the left" />
+        <div class="addons" id="addons">
+          <button type="button" class="addons-trigger" id="addons-trigger" aria-expanded="true" aria-controls="addons-panel">
+            Add-ons
+          </button>
+          <div class="addons-panel is-open" id="addons-panel">
+            <label class="check"><input type="checkbox" id="addon-breakfast" checked /> Breakfast ($40)</label>
+            <label class="check"><input type="checkbox" id="addon-parking" /> Parking ($25)</label>
+          </div>
+        </div>
+        <button type="button" class="btn" id="room-continue">Continue to confirm</button>
+      </section>
+
+      <!-- SCREEN: Confirm (default visible — screenshot target) -->
+      <section class="screen is-active" id="screen-confirm" data-screen="confirm">
+        <h1>Confirm booking</h1>
+        <p class="lede">Review before paying.</p>
+
+        <div class="card">
+          <div class="card-head">
+            <h2>Stay</h2>
+            <button type="button" class="linkish" id="edit-dates">Edit dates</button>
+          </div>
+          <!-- TRAP: these chips read stale confirmView (+1 month / wrong guests), not live state -->
+          <div class="chips">
+            <span class="chip" id="confirm-in">Check-in Oct 12</span>
+            <span class="chip" id="confirm-out">Check-out Oct 18</span>
+            <span class="chip chip-muted" id="confirm-guests">1 guest</span>
+          </div>
+          <p class="fine" id="confirm-nights">6 nights</p>
+        </div>
+
+        <div class="card room-line">
+          <img class="thumb-sq" src="media/loft.svg" width="600" height="400" alt="Loft thumbnail" />
+          <div>
+            <h2 id="confirm-room-name">Classic loft</h2>
+            <p id="confirm-room-meta">$240 × 6 nights</p>
+          </div>
+        </div>
+
+        <div class="card pay-methods" id="pay-methods">
+          <h2>Payment</h2>
+          <label class="radio"><input type="radio" name="pay" value="card" checked /> Card</label>
+          <label class="radio"><input type="radio" name="pay" value="paypal" /> PayPal</label>
+        </div>
+      </section>
+    </main>
+
+    <footer class="cta-bar" id="cta-bar">
+      <div class="total">
+        <span class="total-label">Due today</span>
+        <!-- TRAP: clipped at 390px; stale confirmView shows flat night rate (wrong vs 240×6+breakfast) -->
+        <strong class="total-value" id="total-value">Pay $240</strong>
+      </div>
+      <button type="button" class="btn-primary" id="primary-cta">Pay now</button>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
